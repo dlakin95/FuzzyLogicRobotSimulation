@@ -166,7 +166,8 @@ void FileableObject::readCharUtf8(QFile &file, QString &tempChar){
 }
 
 QString FileableObject::getStringForFile(GetParamRules &paramRules){
-    return getParamName(paramRules.param) + QString("=\"") + getParam(paramRules).replace("\\", "\\\\").replace("\"", "\\\"") + QString("\"\n");
+    QString str = getParamName(paramRules.param);
+    return str + QString("=\"") + getParam(paramRules).replace("\\", "\\\\").replace("\"", "\\\"") + QString("\"\n");
 }
 
 bool FileableObject::writeParameterToFile(QFile &file, GetParamRules& paramRules){

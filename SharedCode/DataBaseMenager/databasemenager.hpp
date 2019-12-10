@@ -93,8 +93,9 @@ public:
     bool readDataBase(DataBaseInfo&);
 #if DATABASE_MENAGER_READ_ONLY == false
     bool openDataBase(DataBase&);
-    bool saveDataBase(DataBaseInfo& dbInfo);
+    bool saveDataBase(DataBaseInfo& dbInfo);    
     bool saveAsDataBase(DataBaseInfo& db);
+    bool saveAllDataBases();
     bool safeCloseDB(DataBaseInfo& dbInfo);
 #endif
 };

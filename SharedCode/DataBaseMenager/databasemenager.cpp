@@ -300,6 +300,14 @@ bool DataBaseMenager::saveAsDataBase(DataBaseInfo& dbInfo){
     }
     return false;
 }
+
+bool DataBaseMenager::saveAllDataBases(){
+    for(uint i = 0; i < numbOfDataBasesInfo; i++){
+        if(!saveDataBase(*(*(dataBaseInfo + i))))
+            return false;
+    }
+    return true;
+}
 #endif
 
 bool DataBaseMenager::safeCloseDB(DataBaseInfo& dbInfo){

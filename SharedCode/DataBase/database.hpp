@@ -58,8 +58,8 @@ public:
     // _PUBLIC_METHODS_ DataBase.hpp
     /*GET_SET_DECLARATION(DataBaseGeneralInformation*, dataBaseGeneralInformation)
     GET_DECLARATION(DataBaseObject**, dataBaseObjects)
-    GET_DECLARATION(uint, numbOfDataBaseObjects)
-    GET_DECLARATION(DataBaseError, error)*/
+    GET_DECLARATION(uint, numbOfDataBaseObjects)*/
+    GET_DECLARATION(DataBaseError, error)
 /*
     static inline constexpr uint getRealParam(DatabaseObjectParameters param){return param;}
     //virtual inline uint getRealParam(uint param){return param + DataBaseObject::getSuperClassNumbOfParameters();}
