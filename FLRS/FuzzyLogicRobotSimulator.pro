@@ -67,10 +67,19 @@ HEADERS += \
     App/FLRS_DB/SimulationAreaTemplate/Element/Elipse/Robot/robotparams.hpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/Elipse/elipse.hpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/Elipse/elipseparams.hpp \
-    App/FLRS_DB/SimulationAreaTemplate/Element/Rect/SimulationArea/simulationarea.hpp \
-    App/FLRS_DB/SimulationAreaTemplate/Element/Rect/SimulationArea/simulationareaparams.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/Ellipse/obstacleellipse.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/Ellipse/obstacleellipseparam.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/Rect/obstaclerect.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/Rect/obstaclerectparam.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/obstacle.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/obstacleparam.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/obstacleshape.hpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/Rect/rect.hpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/Rect/rectparams.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/SimulationArea/Rect/SARect.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/SimulationArea/Rect/SARectParam.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/SimulationArea/simarea.hpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/SimulationArea/simareaparam.hpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/element.hpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/elementparams.hpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/elementtypes.hpp \
@@ -114,8 +123,12 @@ SOURCES += \
     App/AppWindow/appwindow.cpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/Elipse/Robot/robot.cpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/Elipse/elipse.cpp \
-    App/FLRS_DB/SimulationAreaTemplate/Element/Rect/SimulationArea/simulationarea.cpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/Ellipse/obstacleellipse.cpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/Rect/obstaclerect.cpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/obstacle.cpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/Rect/rect.cpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/SimulationArea/Rect/simarearect.cpp \
+    App/FLRS_DB/SimulationAreaTemplate/Element/SimulationArea/simarea.cpp \
     App/FLRS_DB/SimulationAreaTemplate/Element/element.cpp \
     App/FLRS_DB/SimulationAreaTemplate/simulationareatemplate.cpp \
     App/FLRS_DB/flrsdatabase.cpp \

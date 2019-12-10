@@ -6,6 +6,7 @@
 #include"elementtypes.hpp"
 
 class QGraphicsItem;
+#include<QGraphicsRectItem>
 class SimulationAreaTemplateElement : public DataBaseObject{
 public:
     SimulationAreaTemplateElement();
@@ -36,7 +37,7 @@ protected:
     };
 
 public:
-    virtual QGraphicsItem* curItem(){return nullptr;}
+    GET_DECLARATION(QGraphicsItem*, object)
 
     DB_OBJECT_STANDARD_METHODS(SimulationAreaTemplateElement, DataBaseObject, SimulationAreaTemplateElementParameters, NUMB_OF_SIMULATION_AREA_TEMPLATE_ELEMENT_PARAMETERS, NUMB_OF_DATABASE_OBJECT_PARAMETERS, SimulationAreaTemplateElementTypes, NUMB_OF_SIMULATION_AREA_TEMPLATE_ELEMENT_TYPES, NUMB_OF_DATABASE_OBJECT_TYPES)
     virtual DataBaseFileOperationStat checkParamAndProccess(QString&, QString&, DataBaseObjectsReadFileContainer*)override;

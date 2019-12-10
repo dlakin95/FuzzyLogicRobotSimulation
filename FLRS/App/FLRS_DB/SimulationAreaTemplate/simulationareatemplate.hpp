@@ -26,11 +26,8 @@ protected:
     {
         DB_OBJECT_MACRO_ACCESS_PARAM_IS_OBJECT(SIMULATION_AREA_TEMPLATE_ELEMENTS)
 
-    };
-    // LED Matrix Picture Basic Config
-    //SimulationAreaTemplateBasicConfig *basicConfig = nullptr;
-
-    // LED Matrix Picture Elements
+    };    
+    // SimulationAreaTemplate Elements
     SimulationAreaTemplateElement **elements = nullptr;
     uint numbOfElements = 0;
 
@@ -52,6 +49,11 @@ public:
     void deactivateCurMode();
 
     bool eventFilter(QObject *obj, QEvent *ev) override;
+
+    bool addElement(SimulationAreaTemplateElement* newElem){ARRAY_ADD_PTR_WITH_TEMP_PTR_RETURN_BOOL(SimulationAreaTemplateElement, elements, numbOfElements, newElem);}
+    bool removeElement(SimulationAreaTemplateElement* remElem){ARRAY_REMOVE_PTR_WITH_TEMP_PTR_RETURN_BOOL(SimulationAreaTemplateElement, elements, numbOfElements, remElem);}
+    void clearElements(){ARRAY_CLEAR_PTR_WITH_TEMP_PTR(elements, numbOfElements);}
+
 };
 
 

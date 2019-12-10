@@ -5,7 +5,7 @@
 #include"../element.hpp"
 #include"rectparams.hpp"
 
-class SimulationAreaTemplateElementRect : public SimulationAreaTemplateElement{
+class SimulationAreaTemplateElementRect : public virtual SimulationAreaTemplateElement{
 public:
     SimulationAreaTemplateElementRect();
     SimulationAreaTemplateElementRect(uint numbOfParams);

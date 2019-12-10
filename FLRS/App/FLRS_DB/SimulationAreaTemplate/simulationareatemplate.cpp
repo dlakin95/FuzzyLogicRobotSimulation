@@ -47,6 +47,7 @@ GET_DEFINITION(SimulationAreaTemplate, bool, changedFlag)
 const QString SimulationAreaTemplate::getParamName(uint param){
     DB_OBJECT_GET_PARAM_NAME_CALL_BASE(param, SimulationAreaTemplate, DataBaseObject);
     switch(static_cast<SimulationAreaTemplateParameters>(param)){
+
     default:
         return QString();
     }
@@ -65,6 +66,18 @@ bool SimulationAreaTemplate::getParam(void *value, GetParamRules& paramRules){
     DB_OBJECT_GET_PARAM_VOID_PTR_CALL_BASE(paramRules, value, SimulationAreaTemplate, DataBaseObject);
     DB_OBJECT_IS_INITIALIZED_BOOL(SimulationAreaTemplate);
     switch (static_cast<SimulationAreaTemplateParameters>(paramRules.param)) {
+    case SIMULATION_AREA_TEMPLATE_ELEMENTS:
+    {
+        if(paramRules.index < numbOfElements)
+        {
+            if(paramRules.index + 1 < numbOfElements)
+                paramRules.nextAvailable = true;
+            *static_cast<SimulationAreaTemplateElement**>(value) = (*(elements + paramRules.index));
+        }else{
+            return false;
+        }
+    }
+        break;
     default:
         return false;
     }
@@ -77,6 +90,39 @@ bool SimulationAreaTemplate::setParam(void *value, SetParamRules& paramRules){
     bool setParamId = false;
     switch (static_cast<SimulationAreaTemplateParameters>(paramRules.param)) {
     // For Parameters with SetParamRules
+    case SIMULATION_AREA_TEMPLATE_ELEMENTS:
+    {
+        switch(paramRules.action){
+        case SET_PARAM_ACTION_ADD:
+        {
+            setParamId = true;
+            if(numbOfElements == UINT_MAX || (*static_cast<DataBaseObject**>(value))->getObjectType() != DB_GET_REAL_TYPE(FuzzyLogicRobotSimulationDataBase, FLRS_SIMULATION_AREA_TEMPLATE_ELEMENT) || (*static_cast<SimulationAreaTemplateElement**>(value))->getElementType() == SIMULATION_AREA_TEMPLATE_ELEMENT_NO_TYPE)
+            {}
+            else{
+                if(!(ret = addElement(*static_cast<SimulationAreaTemplateElement**>(value)))){
+                    return  false;
+                }
+                addItem((*static_cast<SimulationAreaTemplateElement**>(value))->curItem());
+                // = itemsBoundingRect();
+                //qDebug() << "Bounding Rect";
+                //qDebug() << tempItemsBoundingRect;
+                ret = true;
+            }
+        }
+            break;
+        case SET_PARAM_ACTION_REMOVE:
+        {
+            if(removeElement(*static_cast<SimulationAreaTemplateElement**>(value))){
+                ret = true;
+            }
+
+        }
+            break;
+        default:
+            return false;
+        }
+    }
+        break;
     default:
         return false;
     }
@@ -204,6 +250,8 @@ void SimulationAreaTemplate::deactivateCurMode(){
     }
     // --------------
     SET_PTR_DO(curMode, nullptr);
+
+    changedFlag = true;
 }
 
 bool SimulationAreaTemplate::eventFilter(QObject *obj, QEvent *ev){
@@ -227,14 +275,14 @@ bool SimulationAreaTemplate::eventFilter(QObject *obj, QEvent *ev){
             switch(ev->type()){
                 case QEvent::GraphicsSceneMouseMove:
                 {
-                    curMode->tempElement->get_object()->setPos(static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
+                    curMode->tempElement->curItem()->setPos(static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
                 }
                 break;
                 case QEvent::GraphicsSceneMouseRelease:
                 {
                     if(static_cast<QGraphicsSceneMouseEvent*>(ev)->buttons() == Qt::LeftButton)
                     {
-                        curMode->tempElement->get_object()->setPos(static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
+                        curMode->tempElement->curItem()->setPos(static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
                         curMode->tempElement = nullptr;
                         deactivateCurMode();
                     }else if(static_cast<QGraphicsSceneMouseEvent*>(ev)->buttons() == Qt::LeftButton){

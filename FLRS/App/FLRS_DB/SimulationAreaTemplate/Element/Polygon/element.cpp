@@ -7,9 +7,6 @@
 #include<QEvent>
 #include<QMouseEvent>
 #include"Rect/rect.hpp"
-#include"SimulationArea/Rect/SARect.hpp"
-#include"Elipse/Robot/robot.hpp"
-#include"Obstacle/obstacle.hpp"
 // -------------------------------------------------------------------------------------------------------------------------------
 
 // _CLASSIMP_ SimulationAreaTemplateElement -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -48,6 +45,7 @@ SimulationAreaTemplateElement::~SimulationAreaTemplateElement(){
 
 
 // _PUBLIC_METHODS_ SimulationAreaTemplateElement.cpp
+GET_DEFINITION(SimulationAreaTemplateElement, QGraphicsItem*, object)
 
 const QString SimulationAreaTemplateElement::getParamName(uint param){
     DB_OBJECT_GET_PARAM_NAME_CALL_BASE(param, SimulationAreaTemplateElement, DataBaseObject);
@@ -72,13 +70,13 @@ QString SimulationAreaTemplateElement::getParam(GetParamRules& paramRules){
         return QString();
     switch (static_cast<SimulationAreaTemplateElementParameters>(paramRules.param)) {
     case SIMULATION_AREA_TEMPLATE_ELEMENT_X:
-        return QString::number(curItem()->x());
+        return QString::number(static_cast<QGraphicsItem*>(static_cast<void*>(this))->x());
     case SIMULATION_AREA_TEMPLATE_ELEMENT_Y:
-        return QString::number(curItem()->y());
+        return QString::number(static_cast<QGraphicsItem*>(static_cast<void*>(this))->y());
     case SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE:
         return QString::number(getElementType());
     case SIMULATION_AREA_TEMPLATE_ELEMENT_ROTATION:
-        return QString::number(curItem()->rotation());
+        return QString::number(static_cast<QGraphicsItem*>(static_cast<void*>(this))->rotation());
     default:
         return QString();
     }
@@ -256,17 +254,9 @@ DataBaseObject* SimulationAreaTemplateElement::createObject(uint newType){
     if(getElementType() != SIMULATION_AREA_TEMPLATE_ELEMENT_NO_TYPE)
         return nullptr;
     switch(newType){
-    case SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_ROBOT:
-        newObj = new SimulationAreaTemplateElementRobot(this);
-        break;
-    case SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_OBSTACLE:
-        newObj = new Obstacle(this);
-        break;
-    case SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_SIMULATION_AREA:
-        newObj = new SimulationAreaRect(this);
-        break;
-    default:
-        break;
+    case SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_RECT:
+        newObj = new SimulationAreaTemplateElementRect(this);
+
     }
     return newObj;
 }
