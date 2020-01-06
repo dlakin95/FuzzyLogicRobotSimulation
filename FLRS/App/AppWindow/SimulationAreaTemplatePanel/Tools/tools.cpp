@@ -21,7 +21,7 @@ void SimulationAreaTemplateTools::init(){
         tempAction->setParent(this);
         addAction(tempAction);
     }
-    connect(paintToolsOptions, SIGNAL(triggered()), this, SLOT(addLedMatrix()));
+    connect(paintToolsOptions, SIGNAL(triggered()), this, SLOT(addRobot()));
     connect(paintToolsOptions + 1, SIGNAL(triggered()), this, SLOT(addRect()));
 }
 
@@ -54,17 +54,17 @@ bool SimulationAreaTemplateTools::eventFilter(QObject *obj, QEvent *ev){
 }
 
 void SimulationAreaTemplateTools::addSimulationAreaTemplate(){
-    SimulationAreaTemplateEventChangeMode changeModeEv(SIMULATION_AREA_TEMPLATE_MODE_ADD_SIMULATION_AREA);
+    SimulationAreaTemplateEventChangeMode changeModeEv(SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_SIMULATION_AREA);
     QApplication::sendEvent(&parent->get_paintArea(), &changeModeEv);
 }
 
 void SimulationAreaTemplateTools::addRect(){
-    SimulationAreaTemplateEventChangeMode changeModeEv(SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT);
+    SimulationAreaTemplateEventChangeMode changeModeEv(SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_OBSTACLE);
     QApplication::sendEvent(&parent->get_paintArea(), &changeModeEv);
 }
 
 void SimulationAreaTemplateTools::addElipse(){
-    SimulationAreaTemplateEventChangeMode changeModeEv(SIMULATION_AREA_TEMPLATE_MODE_DRAW_ELIPSE);
+    SimulationAreaTemplateEventChangeMode changeModeEv(SIMULATION_AREA_TEMPLATE_MODE_DRAW_ELIPSE_OBSTACLE);
     QApplication::sendEvent(&parent->get_paintArea(), &changeModeEv);
 }
 

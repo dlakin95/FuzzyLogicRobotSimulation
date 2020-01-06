@@ -22,7 +22,7 @@ const QString MenuBar::menuFileOptionNames[NUMB_OF_MENU_BAR_FILE_OPTIONS] =  {
     MB_NAME_ACCESS(MENU_BAR_MENU_FILE_OPTION_NEW),
     MB_NAME_ACCESS(MENU_BAR_MENU_FILE_OPTION_OPEN),
     MB_NAME_ACCESS(MENU_BAR_MENU_FILE_OPTION_SAVE),
-    MB_NAME_ACCESS(MENU_BAR_MENU_FILE_OPTION_SAVE_AS),
+    MB_NAME_ACCESS(MENU_BAR_MENU_FILE_OPTION_SAVE_ALL),
     MB_NAME_ACCESS(MENU_BAR_MENU_FILE_OPTION_CLOSE)
 };
 
@@ -90,16 +90,20 @@ void MenuBar::reloadMenu(){
 bool MenuBar::eventFilter(QObject *obj, QEvent *ev){
     switch(ev->type()){
     case QEvent::MouseButtonRelease:
-    if(&menus[MENU_BAR_MENU_FILE] == obj){
-        if(menus[MENU_BAR_MENU_FILE].activeAction() == &fileOptions[MENU_BAR_MENU_FILE_OPTION_OPEN]){
-            openBaseOptionTriggerred();
-            break;
+        if(&menus[MENU_BAR_MENU_FILE] == obj){
+            if(menus[MENU_BAR_MENU_FILE].activeAction() == &fileOptions[MENU_BAR_MENU_FILE_OPTION_OPEN]){
+                openBaseOptionTriggerred();
+                break;
+            }
+            if(menus[MENU_BAR_MENU_FILE].activeAction() == &fileOptions[MENU_BAR_MENU_FILE_OPTION_SAVE]){
+                saveBaseOptionTriggerred();
+                break;
+            }
+            if(menus[MENU_BAR_MENU_FILE].activeAction() == &fileOptions[MENU_BAR_MENU_FILE_OPTION_SAVE_ALL]){
+                saveAllBasesOptionTriggerred();
+                break;
+            }
         }
-        if(menus[MENU_BAR_MENU_FILE].activeAction() == &fileOptions[MENU_BAR_MENU_FILE_OPTION_SAVE]){
-            saveBaseOptionTriggerred();
-            break;
-        }
-    }
         /*
         if(dataBaseMenu.activeAction() == dataBaseOptions + 1){
 
@@ -155,6 +159,10 @@ void MenuBar::saveBaseOptionTriggerred(){
     FuzzyLogicRobotSimulationDataBase* db = static_cast<FuzzyLogicRobotSimulationDataBase*>(parent->get_simulationAreaTemplatesListPanel().get_list().get_currentElementRefObj());
     //if(db && db->getObjectType() == DB_GET_REAL_TYPE(DataBaseObject, DATABASE_OBJECT_DATABASE) && parent->get_parent()->get_dbMenager().saveDataBase(*db))
 
+}
+
+void MenuBar::saveAllBasesOptionTriggerred(){
+    parent->get_parent()->get_dbMenager().saveAllDataBases();
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------

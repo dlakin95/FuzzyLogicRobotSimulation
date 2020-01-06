@@ -2,6 +2,8 @@
 // _INCLUDES_ FuzzyLogicRobotSimulationDataBase.cpp -------------------------------------------------------------------------------------------------------------------
 #include"GeneralPurposeMacros/programcontrolmenegment.hpp"
 #include"flrsdatabase.hpp"
+#include"SimulationAreaTemplate/simulationareatemplate.hpp"
+#include"SimulationAreaTemplate/Element/element.hpp"
 #include"GeneralPurposeMacros/memorymenegementmacros.hpp"
 
 // -------------------------------------------------------------------------------------------------------------------------------
@@ -136,6 +138,10 @@ DataBaseObject* FuzzyLogicRobotSimulationDataBase::createObject(DataBaseObject *
     if(obj->getObjectType() != NUMB_OF_DATABASE_OBJECT_TYPES) return nullptr;
     DB_OBJECT_CREATE_OBJECT_CALL_BASE(obj, FuzzyLogicRobotSimulationDataBase, DataBase);
     switch(static_cast<FuzzyLogicRobotSimulationDataBaseTypes>(newType)){
+    case FLRS_SIMULATION_AREA_TEMPLATE:
+        return new SimulationAreaTemplate(obj);
+    case FLRS_SIMULATION_AREA_TEMPLATE_ELEMENT:
+        return new SimulationAreaTemplateElement(obj);
     default:
         return nullptr;
     }

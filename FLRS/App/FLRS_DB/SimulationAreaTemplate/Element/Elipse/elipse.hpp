@@ -5,7 +5,7 @@
 #include"../element.hpp"
 #include"elipseparams.hpp"
 
-class SimulationAreaTemplateElementElipse : public SimulationAreaTemplateElement{
+class SimulationAreaTemplateElementElipse : public virtual SimulationAreaTemplateElement, public QGraphicsEllipseItem{
 public:
     SimulationAreaTemplateElementElipse();
     SimulationAreaTemplateElementElipse(uint numbOfParams);
