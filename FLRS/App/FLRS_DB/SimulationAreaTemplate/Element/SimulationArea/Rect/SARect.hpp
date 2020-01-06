@@ -36,6 +36,10 @@ public:
     virtual DataBaseObject* createObject(uint newType)override{return nullptr;}
 
     virtual QGraphicsItem* curItem()override{return this;}
+
+    virtual Shape getShape()override{return SHAPE_RECT;}
+
+    virtual bool sceneEventFilter(QGraphicsItem *obj, QEvent *ev) override;
 };
 
 #endif // SARECT_HPP

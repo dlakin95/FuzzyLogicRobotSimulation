@@ -5,6 +5,7 @@
 #include"GeneralPurposeMacros/memorymenegementmacros.hpp"
 #include<QEvent>
 #include<QMouseEvent>
+#include"App/FLRS_DB/SimulationAreaTemplate/Element/SimulationArea/Rect/SARect.hpp"
 // -------------------------------------------------------------------------------------------------------------------------------
 
 // _CLASSIMP_ SimulationArea -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -139,5 +140,12 @@ DataBaseFileOperationStat SimulationArea::checkParamAndProccess(QString &param, 
     return SimulationAreaTemplateElement::checkParamAndProccess(param, value, dbObjectParamRules);
 }
 
-
-
+DataBaseObject* SimulationArea::createObject(uint newType){
+    if(getShape() != NUMB_OF_SHAPES)
+        return nullptr;
+    switch (newType) {
+    case SHAPE_RECT:
+        return new SimulationAreaRect(this);
+    }
+    return nullptr;
+}

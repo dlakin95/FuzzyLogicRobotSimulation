@@ -15,7 +15,7 @@
 // ------------------------------------------
 
 // _OBSTACLE_PARAM_NAME_LENGTH_MACROS_   !!!WARNING!!! Use only param length macros defined in FileMenegmentMacros Header File !!!
-#define OBSTACLE_SHAPE_PARAM_NAME_LENGTH (PARAM_LENGTH_6)
+#define OBSTACLE_SHAPE_PARAM_NAME_LENGTH (PARAM_LENGTH_5)
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_NAME_LENGTH_MACRO_      !!!WARNING!!! Use only param length macros defined in FileMenegmentMacros Header File !!!
@@ -52,7 +52,6 @@
 enum ObstacleParameters{
 
     // All List Parameters Below vvvvvvvvvvvvv
-    OBSTACLE_SHAPE,
 
     NUMB_OF_OBSTACLE_PARAMETERS
 };

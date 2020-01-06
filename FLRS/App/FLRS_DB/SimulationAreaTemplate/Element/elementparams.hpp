@@ -8,6 +8,7 @@
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_Y_PARAM_NAME ("y")
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_ROTATION_PARAM_NAME ("rotation")
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_PARAM_NAME ("elemType")
+#define SIMULATION_AREA_TEMPLATE_ELEMENT_SHAPE_PARAM_NAME ("shape")
 // ---------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_NAME_MACRO_ STEP.Nr.
@@ -24,6 +25,7 @@
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_Y_PARAM_NAME_LENGTH (PARAM_LENGTH_1)
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_ROTATION_PARAM_NAME_LENGTH (PARAM_LENGTH_8)
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_PARAM_NAME_LENGTH (PARAM_LENGTH_8)
+#define SIMULATION_AREA_TEMPLATE_ELEMENT_SHAPE_PARAM_NAME_LENGTH (PARAM_LENGTH_5)
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_NAME_LENGTH_MACRO_      !!!WARNING!!! Use only param length macros defined in FileMenegmentMacros Header File !!!
@@ -38,6 +40,7 @@
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_Y_PARAM_OPTIONALITY (false)
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_ROTATION_PARAM_OPTIONALITY (true)
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_PARAM_OPTIONALITY (false)
+#define SIMULATION_AREA_TEMPLATE_ELEMENT_SHAPE_PARAM_OPTIONALITY (false)
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_OPTIONALITY_MACRO_
@@ -52,6 +55,7 @@
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_Y_PARAM_PARAM_IS_OBJECT (false)
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_ROTATION_PARAM_PARAM_IS_OBJECT (false)
 #define SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_PARAM_PARAM_IS_OBJECT (false)
+#define SIMULATION_AREA_TEMPLATE_ELEMENT_SHAPE_PARAM_PARAM_IS_OBJECT (false)
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_PARAM_IS_OBJECT_MACRO_
@@ -65,6 +69,7 @@
 // _ENUM_ SimulationAreaTemplateElementParameters -----------------------------------------------------------------------------------------------------------------------------------------------
 enum SimulationAreaTemplateElementParameters{
     SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE,    // if not set, any other param cant be set (return false)
+    SIMULATION_AREA_TEMPLATE_ELEMENT_SHAPE,
     // All List Parameters Below vvvvvvvvvvvvv
     SIMULATION_AREA_TEMPLATE_ELEMENT_X,
     SIMULATION_AREA_TEMPLATE_ELEMENT_Y,

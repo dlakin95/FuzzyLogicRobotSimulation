@@ -5,6 +5,7 @@
 #include<QGraphicsView>
 //#include"../SimulationAreaTemplateTools/painttools.hpp"
 #include"GeneralPurposeMacros/standardclassdefinitions.hpp"
+#include"App/FLRS_DB/SimulationAreaTemplate/simulationareatemplate.hpp"
 
 class SimulationAreaTemplatePanel;
 class QGraphicsScene;
@@ -26,6 +27,8 @@ protected:
     virtual void createLayout();
     virtual void connectEvents();
     virtual void clearMemory();
+
+    inline void saveView();
 public:
     GET_DECLARATION(SimulationAreaTemplatePanel*, parent)
 
@@ -33,6 +36,9 @@ public:
     void paintEvent(QPaintEvent* ev) override;
     bool eventFilter(QObject* obj, QEvent* ev) override;
     void wheelEvent(QWheelEvent* ev)override;
+
+    inline SimulationAreaTemplate* scene();
+    void setScene(SimulationAreaTemplate*);
 };
 
 #endif // PAINTAREA_HPP

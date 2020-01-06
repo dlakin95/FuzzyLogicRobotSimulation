@@ -7,6 +7,7 @@
 
 // _SIMULATION_AREA_PARAM_NAME_MACROS_ ---------------------------------------------------------
 #define SIMULATION_AREA_OBJECTS_PARAM_NAME ("objects")
+#define SIMULATION_AREA_SHAPE_PARAM_NAME ("shape")
 // ---------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_NAME_MACRO_ STEP.Nr.
@@ -18,6 +19,7 @@
 
 // _SIMULATION_AREA_PARAM_NAME_LENGTH_MACROS_   !!!WARNING!!! Use only param length macros defined in FileMenegmentMacros Header File !!!
 #define SIMULATION_AREA_OBJECTS_PARAM_NAME_LENGTH (PARAM_LENGTH_7)
+#define SIMULATION_AREA_SHAPE_PARAM_NAME_LENGTH (PARAM_LENGTH_5)
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_NAME_LENGTH_MACRO_      !!!WARNING!!! Use only param length macros defined in FileMenegmentMacros Header File !!!
@@ -29,6 +31,7 @@
 
 // _SIMULATION_AREA_PARAM_OPTIONALITY_MACROS_
 #define SIMULATION_AREA_OBJECTS_PARAM_OPTIONALITY (true)
+#define SIMULATION_AREA_SHAPE_PARAM_OPTIONALITY (false)
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_OPTIONALITY_MACRO_
@@ -40,6 +43,7 @@
 
 // _SIMULATION_AREA_PARAM_PARAM_IS_OBJECT_MACROS_
 #define SIMULATION_AREA_OBJECTS_PARAM_PARAM_IS_OBJECT (true)
+#define SIMULATION_AREA_SHAPE_PARAM_PARAM_IS_OBJECT (false)
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // _ADD_DB_CATEGORY_PARAM_PARAM_IS_OBJECT_MACRO_

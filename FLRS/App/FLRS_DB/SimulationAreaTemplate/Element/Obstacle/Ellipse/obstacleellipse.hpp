@@ -37,7 +37,9 @@ public:
 
     virtual QGraphicsItem* curItem()override{return this;}
 
-    virtual ObstacleShape getShape() override{return OBSTACLE_SHAPE_ELLIPSE;}
+    virtual Shape getShape()override{return SHAPE_ELLIPSE;}
+
+    virtual bool sceneEventFilter(QGraphicsItem *obj, QEvent *ev) override;
 };
 
 

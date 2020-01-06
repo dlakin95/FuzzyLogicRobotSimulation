@@ -55,6 +55,8 @@
 // _ENUM_ ObstacleEllipseParameters -----------------------------------------------------------------------------------------------------------------------------------------------
 enum ObstacleEllipseParameters{
 
+    OBSTACLE_ELLIPSE_WIDTH,
+    OBSTACLE_ELLIPSE_HEIGHT,
     // All List Parameters Below vvvvvvvvvvvvv
 
     NUMB_OF_OBSTACLE_ELLIPSE_PARAMETERS

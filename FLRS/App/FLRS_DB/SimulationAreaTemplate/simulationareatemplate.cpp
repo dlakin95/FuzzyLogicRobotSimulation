@@ -12,6 +12,10 @@
 #include<QDebug>
 #include"EventChangeMode/eventcm.hpp"
 #include<QGraphicsItem>
+#include"App/FLRS_DB/SimulationAreaTemplate/Element/Elipse/Robot/robot.hpp"
+#include"App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/Rect/obstaclerect.hpp"
+#include"App/FLRS_DB/SimulationAreaTemplate/Element/Obstacle/Ellipse/obstacleellipse.hpp"
+#include"App/FLRS_DB/SimulationAreaTemplate/Element/SimulationArea/Rect/SARect.hpp"
 // -------------------------------------------------------------------------------------------------------------------------------
 
 // _CLASSIMP_ SimulationAreaTemplate -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -22,8 +26,17 @@ constexpr bool SimulationAreaTemplate::paramIsObject[];
 
 
 // _CONSTRUCTORS_ SimulationAreaTemplate.cpp
-SimulationAreaTemplate::SimulationAreaTemplate() : DataBaseObject(static_cast<DatabaseObjectType>(DB_GET_REAL_TYPE(FuzzyLogicRobotSimulationDataBase, FLRS_SIMULATION_AREA_TEMPLATE)), NUMB_OF_SIMULATION_AREA_TEMPLATE_PARAMETERS), QGraphicsScene(){
+SimulationAreaTemplate::SimulationAreaTemplate() : SimulationAreaTemplate(static_cast<uint>(0)){
     //addRect(QRect())
+    installEventFilter(this);
+}
+
+SimulationAreaTemplate::SimulationAreaTemplate(uint numbOfParams) : DataBaseObject(static_cast<DatabaseObjectType>(DB_GET_REAL_TYPE(FuzzyLogicRobotSimulationDataBase, FLRS_SIMULATION_AREA_TEMPLATE)), numbOfParams + NUMB_OF_SIMULATION_AREA_TEMPLATE_PARAMETERS), QGraphicsScene(){
+    //setSceneRect(QRectF(QPoint(-1000,-1000), QSize(2000, 2000)));
+    //sceneRectItem.setRect(sceneRect());
+    //addItem(&sceneRectItem);
+    //qDebug() << "Bounding Rect";
+    //qDebug() << tempItemsBoundingRect;
     installEventFilter(this);
 }
 
@@ -43,6 +56,7 @@ SimulationAreaTemplate::~SimulationAreaTemplate(){
 
 // _PUBLIC_METHODS_ SimulationAreaTemplate.cpp
 GET_DEFINITION(SimulationAreaTemplate, bool, changedFlag)
+GET_DEFINITION(SimulationAreaTemplate, QRectF, tempItemsBoundingRect)
 
 const QString SimulationAreaTemplate::getParamName(uint param){
     DB_OBJECT_GET_PARAM_NAME_CALL_BASE(param, SimulationAreaTemplate, DataBaseObject);
@@ -96,26 +110,26 @@ bool SimulationAreaTemplate::setParam(void *value, SetParamRules& paramRules){
         case SET_PARAM_ACTION_ADD:
         {
             setParamId = true;
-            if(numbOfElements == UINT_MAX || (*static_cast<DataBaseObject**>(value))->getObjectType() != DB_GET_REAL_TYPE(FuzzyLogicRobotSimulationDataBase, FLRS_SIMULATION_AREA_TEMPLATE_ELEMENT) || (*static_cast<SimulationAreaTemplateElement**>(value))->getElementType() == SIMULATION_AREA_TEMPLATE_ELEMENT_NO_TYPE)
-            {}
-            else{
+            if(!(numbOfElements == UINT_MAX || (*static_cast<DataBaseObject**>(value))->getObjectType() != DB_GET_REAL_TYPE(FuzzyLogicRobotSimulationDataBase, FLRS_SIMULATION_AREA_TEMPLATE_ELEMENT) || (*static_cast<SimulationAreaTemplateElement**>(value))->getElementType() == SIMULATION_AREA_TEMPLATE_ELEMENT_NO_TYPE))
+            {
                 if(!(ret = addElement(*static_cast<SimulationAreaTemplateElement**>(value)))){
                     return  false;
                 }
                 addItem((*static_cast<SimulationAreaTemplateElement**>(value))->curItem());
-                // = itemsBoundingRect();
-                //qDebug() << "Bounding Rect";
-                //qDebug() << tempItemsBoundingRect;
+                if((*static_cast<SimulationAreaTemplateElement**>(value))->curItem())
+                    (*static_cast<SimulationAreaTemplateElement**>(value))->curItem()->installSceneEventFilter((*static_cast<SimulationAreaTemplateElement**>(value))->curItem());
+                sceneChangeByAddItem((*static_cast<SimulationAreaTemplateElement**>(value))->curItem());
+                tempItemsBoundingRect = itemsBoundingRect();
                 ret = true;
             }
         }
             break;
         case SET_PARAM_ACTION_REMOVE:
         {
-            if(removeElement(*static_cast<SimulationAreaTemplateElement**>(value))){
+            removeItem((*static_cast<SimulationAreaTemplateElement**>(value))->curItem());
+            if(removeElement((*static_cast<SimulationAreaTemplateElement**>(value)))){
                 ret = true;
             }
-
         }
             break;
         default:
@@ -198,27 +212,26 @@ void SimulationAreaTemplate::activateMode(SimulationAreaTemplateModeType type, u
     SET_PTR_NDO(curMode, new SimulationAreaTemplateMode{type});
     // Init Sequance
     switch(type){
-    case SIMULATION_AREA_TEMPLATE_MODE_DEFAULT:
-    {
-
-    }
-        break;
-    case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT:
+    case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_OBSTACLE:
+    case SIMULATION_AREA_TEMPLATE_MODE_DRAW_ELIPSE_OBSTACLE:
+    case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_SIMULATION_AREA:
     {
 
     }
         break;
     case SIMULATION_AREA_TEMPLATE_MODE_ADD_ROBOT:
-    {   // Current Size 64x64  - Item
-        // Track Mouse Move to Redraw Matrix Position
+    {
         for(int i = 0; i < views().size(); i++){
             views().at(i)->setMouseTracking(true);
         }
-        //curMode->tempElement = new SimulationAreaTemplateElementRect();
-        qDebug() << "Scene Active MOde";
-        qDebug() << this;
-        qDebug() << static_cast<QGraphicsItem*>(static_cast<void*>(curMode->tempElement));
-        addItem(static_cast<QGraphicsItem*>(static_cast<void*>(curMode->tempElement)));
+        curMode->tempElement = new SimulationAreaTemplateElementRobot();
+        acceptSceneChange = false;
+        SetParamRules spr = {DB_GET_REAL_PARAM(SimulationAreaTemplate, SIMULATION_AREA_TEMPLATE_ELEMENTS), UINT_MAX, SET_PARAM_ACTION_ADD};
+        if(!setParam(&(curMode->tempElement), spr)){
+            SET_PTR_DO(curMode->tempElement, nullptr);
+            deactivateCurMode();
+        }
+        acceptSceneChange = true;
     }
         break;
     }
@@ -228,29 +241,37 @@ void SimulationAreaTemplate::deactivateCurMode(){
     // DeInit Sequance
     if(curMode){
         switch(curMode->type){
-        case SIMULATION_AREA_TEMPLATE_MODE_DEFAULT:
+        case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_OBSTACLE:
+        case SIMULATION_AREA_TEMPLATE_MODE_DRAW_ELIPSE_OBSTACLE:
+        case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_SIMULATION_AREA:
         {
-
-        }
-            break;
-        case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT:
-        {
-
+            if(curMode->tempElement){
+                SetParamRules spr = {DB_GET_REAL_PARAM(SimulationAreaTemplate, SIMULATION_AREA_TEMPLATE_ELEMENTS), UINT_MAX, SET_PARAM_ACTION_REMOVE};
+                if(!setParam(&(curMode->tempElement), spr)){
+                    SET_PTR_DO(curMode->tempElement, nullptr);
+                    // Internal Error
+                }
+            }
         }
             break;
         case SIMULATION_AREA_TEMPLATE_MODE_ADD_ROBOT:
         {
             for(int i = 0; i < views().size(); i++){
-                views().at(i)->setMouseTracking(true);
+                views().at(i)->setMouseTracking(false);
             }
-            SET_PTR_DO(curMode->tempElement, nullptr);
+            if(curMode->tempElement){
+                SetParamRules spr = {DB_GET_REAL_PARAM(SimulationAreaTemplate, SIMULATION_AREA_TEMPLATE_ELEMENTS), UINT_MAX, SET_PARAM_ACTION_REMOVE};
+                if(!setParam(&(curMode->tempElement), spr)){
+                    SET_PTR_DO(curMode->tempElement, nullptr);
+                    // Internal Error
+                }
+            }
         }
             break;
         }
     }
     // --------------
     SET_PTR_DO(curMode, nullptr);
-
     changedFlag = true;
 }
 
@@ -260,42 +281,156 @@ bool SimulationAreaTemplate::eventFilter(QObject *obj, QEvent *ev){
         activateMode(static_cast<SimulationAreaTemplateEventChangeMode*>(ev)->get_newModeType(), static_cast<SimulationAreaTemplateEventChangeMode*>(ev)->get_phase());
     if(curMode){
         switch (curMode->type) {
-        case SIMULATION_AREA_TEMPLATE_MODE_DEFAULT:
+        case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_OBSTACLE:
         {
+            switch(static_cast<SimulationAreaTemplateModeDrawRectPhase>(curMode->phase)){
+            case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_PHASE_START_POINT:
+            {
+                switch(ev->type()){
+                case QEvent::GraphicsSceneMousePress:
+                {
+                    if(static_cast<QGraphicsSceneMouseEvent*>(ev)->buttons() & Qt::LeftButton){
+                        curMode->phase = SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_PHASE_END_POINT;
+                        curMode->tempElement = new ObstacleRect();
+                        curMode->tempElement->curItem()->setPos(static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
+                        static_cast<ObstacleRect*>(curMode->tempElement->curItem())->setRect(QRectF(QPointF(0,0),QSize(1,1)));
+                        curMode->tempElement->curItem()->show();
+                        acceptSceneChange = false;
+                        SetParamRules spr = {DB_GET_REAL_PARAM(SimulationAreaTemplate, SIMULATION_AREA_TEMPLATE_ELEMENTS), UINT_MAX, SET_PARAM_ACTION_ADD};
+                        if(!setParam(&(curMode->tempElement), spr)){
+                            SET_PTR_DO(curMode->tempElement, nullptr);
+                            deactivateCurMode();
+                        }
+                        acceptSceneChange = true;
 
-        }
-            break;
-        case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT:
-        {
+                    }
+                }
+                    break;
+                case QEvent::GraphicsSceneMouseRelease:
+                {
+                    if(static_cast<QGraphicsSceneMouseEvent*>(ev)->button() == Qt::RightButton)
+                        deactivateCurMode();
+                }
+                    break;
+                }
+            }
+                break;
+            case SIMULATION_AREA_TEMPLATE_MODE_DRAW_RECT_PHASE_END_POINT:
+            {
+                switch (ev->type()) {
+                case QEvent::GraphicsSceneMouseMove:
+                {
+                    if(static_cast<QGraphicsSceneMouseEvent*>(ev)->buttons() & Qt::LeftButton)
+                    {
+                        static_cast<ObstacleRect*>(curMode->tempElement->curItem())->setRect(QRectF(QPointF(0,0), static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos() - curMode->tempElement->curItem()->pos()));
 
+                    }
+                }
+                break;
+                case QEvent::GraphicsSceneMouseRelease:
+                {
+                    if(static_cast<QGraphicsSceneMouseEvent*>(ev)->button() == Qt::LeftButton)
+                    {
+                        static_cast<ObstacleRect*>(curMode->tempElement->curItem())->setRect(QRectF(QPointF(0,0), static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos() - curMode->tempElement->curItem()->pos()));
+                        sceneChangeByAddItem(curMode->tempElement->curItem());
+                        curMode->tempElement = nullptr;
+                        deactivateCurMode();
+                    }else if(static_cast<QGraphicsSceneMouseEvent*>(ev)->button() == Qt::RightButton){
+                        deactivateCurMode();
+                    }
+                }
+                break;
+                case QEvent::Enter:
+                {
+                    if(obj == this){
+                        curMode->tempElement->curItem()->show();
+                    }
+                }
+                    break;
+                case QEvent::Leave:
+                {
+                    if(obj == this){
+                        curMode->tempElement->curItem()->hide();
+                    }
+                }
+                    break;
+                }
+            }
+                break;
+            }
         }
             break;
         case SIMULATION_AREA_TEMPLATE_MODE_ADD_ROBOT:
         {   // SINGLE PHASE MODE
             switch(ev->type()){
-                case QEvent::GraphicsSceneMouseMove:
+            case QEvent::GraphicsSceneMouseMove:
+            {
+                curMode->tempElement->curItem()->setPos(static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
+            }
+            break;
+            case QEvent::Enter:
+            {
+                if(obj == this){
+                    curMode->tempElement->curItem()->show();
+                }
+            }
+                break;
+            case QEvent::Leave:
+            {
+                if(obj == this){
+                    curMode->tempElement->curItem()->hide();
+                }
+            }
+                break;
+            case QEvent::GraphicsSceneMouseRelease:
+            {
+                if(static_cast<QGraphicsSceneMouseEvent*>(ev)->button() == Qt::LeftButton)
                 {
                     curMode->tempElement->curItem()->setPos(static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
+                    sceneChangeByAddItem(curMode->tempElement->curItem());
+                    curMode->tempElement = nullptr;
+                    deactivateCurMode();
+                }else if(static_cast<QGraphicsSceneMouseEvent*>(ev)->button() == Qt::RightButton){
+                    deactivateCurMode();
                 }
-                break;
-                case QEvent::GraphicsSceneMouseRelease:
-                {
-                    if(static_cast<QGraphicsSceneMouseEvent*>(ev)->buttons() == Qt::LeftButton)
-                    {
-                        curMode->tempElement->curItem()->setPos(static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
-                        curMode->tempElement = nullptr;
-                        deactivateCurMode();
-                    }else if(static_cast<QGraphicsSceneMouseEvent*>(ev)->buttons() == Qt::LeftButton){
-                        deactivateCurMode();
-                    }
-                }
-                break;
+            }
+            break;
             }
         }
             break;
         }
-    }else{
-        qDebug() << "CurMode = nullptr";
+    }
+    // Modes Independant Events Filter
+    switch(ev->type()){
+    case QEvent::GraphicsSceneMouseMove:
+    {
+        if(static_cast<QGraphicsSceneMouseEvent*>(ev)->buttons() & Qt::MiddleButton){
+            QPointF delta = lastMPos - (static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos());
+            lastMPos = static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos() + delta;
+            QRectF rect = sceneRect();
+            rect.translate(delta);
+            setSceneRect(rect);
+        }
+    }
+        break;
+    case QEvent::GraphicsSceneMousePress:
+    {
+        if(static_cast<QGraphicsSceneMouseEvent*>(ev)->buttons() & Qt::MiddleButton){
+            lastMPos = static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos();
+            //startTimer();
+        }
+    }
+        break;
+    case QEvent::GraphicsSceneMouseRelease:
+    {
+        if(static_cast<QGraphicsSceneMouseEvent*>(ev)->button() & Qt::MiddleButton){
+            lastMPos = static_cast<QGraphicsSceneMouseEvent*>(ev)->scenePos();
+            //endTimer();
+        }
+
+
+    }
+        break;
     }
     return QGraphicsScene::eventFilter(obj, ev);
 }

@@ -193,3 +193,10 @@ DataBaseFileOperationStat SimulationAreaRect::checkParamAndProccess(QString &par
 
 
 
+bool SimulationAreaRect::sceneEventFilter(QGraphicsItem *obj, QEvent *ev){
+
+
+    // CALL ELEMENT EVENT FILTER
+    SimulationArea::sceneEventFilter(obj, ev);
+    return QGraphicsRectItem::sceneEventFilter(obj, ev);
+}

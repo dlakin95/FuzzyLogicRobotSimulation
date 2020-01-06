@@ -19,7 +19,8 @@
 SimulationAreaTemplateArea::SimulationAreaTemplateArea(SimulationAreaTemplatePanel* parent, QGraphicsScene* refScene) : QGraphicsView(refScene,parent), parent(parent)
 {
    initalize();
-
+   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 // _DESTRUCTORS_ SimulationAreaTemplateArea.cpp
@@ -29,7 +30,7 @@ SimulationAreaTemplateArea::~SimulationAreaTemplateArea(){
 
 // _PRIVATE_METHODS_ SimulationAreaTemplateArea.cpp
 void SimulationAreaTemplateArea::initalize(){
-    setMouseTracking(true);
+    //setMouseTracking(true);
     //setRenderHint(QSimulationAreaTemplateer::HighQualityAntialiasing, true);
     createObjects();
     createLayout();
@@ -61,9 +62,7 @@ void SimulationAreaTemplateArea::resizeEvent(QResizeEvent *ev){
 }
 
 void SimulationAreaTemplateArea::paintEvent(QPaintEvent *ev){
-    QPainter p(viewport());
-    QPen pen(QColor(0,0,0));
-    p.setPen(pen);
+
     //p.drawRect(QRect(QPoint(0,0), QSize(10, 10)));
     //if(repaintPixelPointer){
 
@@ -99,4 +98,22 @@ void SimulationAreaTemplateArea::wheelEvent(QWheelEvent *ev)
     else
       scale(0.8, 0.8);
   }
+
+void SimulationAreaTemplateArea::saveView(){
+    if(scene())     scene()->setLastViewRect(mapToScene(viewport()->rect()).boundingRect());
+}
+
+SimulationAreaTemplate* SimulationAreaTemplateArea::scene(){
+    return static_cast<SimulationAreaTemplate*>(QGraphicsView::scene());
+}
+
+void SimulationAreaTemplateArea::setScene(SimulationAreaTemplate *newScene){
+    // Save View For Last Scene
+    saveView();
+    QGraphicsView::setScene(newScene);
+    if(newScene){
+        fitInView(newScene->getLastViewRect(), Qt::KeepAspectRatio);
+    }
+
+}
 // ----------------------------------------------------------------------------------------------------------------------------------------------

@@ -2,10 +2,10 @@
 #define ROBOT_HPP
 
 #include<QGraphicsEllipseItem>
-#include"../elipse.hpp"
+#include"App/FLRS_DB/SimulationAreaTemplate/Element/element.hpp"
 #include"robotparams.hpp"
 
-class SimulationAreaTemplateElementRobot : public SimulationAreaTemplateElementElipse{
+class SimulationAreaTemplateElementRobot : public SimulationAreaTemplateElement, public QGraphicsEllipseItem{
 public:
     SimulationAreaTemplateElementRobot();
     SimulationAreaTemplateElementRobot(uint numbOfParams);
@@ -28,12 +28,15 @@ protected:
 
 
 public:
-    DB_OBJECT_STANDARD_METHODS_NO_TYPES(SimulationAreaTemplateElementRobot, SimulationAreaTemplateElementElipse, SimulationAreaTemplateElementRobotParameters, NUMB_OF_SIMULATION_AREA_TEMPLATE_ELEMENT_ROBOT_PARAMETERS, NUMB_OF_SIMULATION_AREA_TEMPLATE_ELEMENT_ELIPSE_PARAMETERS)
+    DB_OBJECT_STANDARD_METHODS_NO_TYPES(SimulationAreaTemplateElementRobot, SimulationAreaTemplateElement, SimulationAreaTemplateElementRobotParameters, NUMB_OF_SIMULATION_AREA_TEMPLATE_ELEMENT_ROBOT_PARAMETERS, NUMB_OF_SIMULATION_AREA_TEMPLATE_ELEMENT_PARAMETERS)
     virtual DataBaseFileOperationStat checkParamAndProccess(QString&, QString&, DataBaseObjectsReadFileContainer*)override;
 
-    virtual DataBaseObject* createObject(uint newType)override{return nullptr;}
+    virtual DataBaseObject* createObject(uint newType)override{return new SimulationAreaTemplateElementRobot(this);}
+
+    virtual QGraphicsItem* curItem()override{return this;}
 
     virtual  SimulationAreaTemplateElementTypes getElementType() const override {return SIMULATION_AREA_TEMPLATE_ELEMENT_TYPE_ROBOT;}
+
 
 };
 

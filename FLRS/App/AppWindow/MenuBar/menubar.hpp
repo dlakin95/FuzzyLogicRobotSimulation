@@ -25,7 +25,7 @@ enum MenuBarMenuFileOptions{
     MENU_BAR_MENU_FILE_OPTION_NEW,
     MENU_BAR_MENU_FILE_OPTION_OPEN,
     MENU_BAR_MENU_FILE_OPTION_SAVE,
-    MENU_BAR_MENU_FILE_OPTION_SAVE_AS,
+    MENU_BAR_MENU_FILE_OPTION_SAVE_ALL,
     MENU_BAR_MENU_FILE_OPTION_CLOSE,
     NUMB_OF_MENU_BAR_FILE_OPTIONS
 };
@@ -34,7 +34,7 @@ enum MenuBarMenuFileOptions{
 #define MENU_BAR_MENU_FILE_OPTION_NEW_TITLE QString("New")
 #define MENU_BAR_MENU_FILE_OPTION_OPEN_TITLE QString("Open")
 #define MENU_BAR_MENU_FILE_OPTION_SAVE_TITLE QString("Save")
-#define MENU_BAR_MENU_FILE_OPTION_SAVE_AS_TITLE QString("Save As")
+#define MENU_BAR_MENU_FILE_OPTION_SAVE_ALL_TITLE QString("Save All")
 #define MENU_BAR_MENU_FILE_OPTION_CLOSE_TITLE QString("Close")
 
 enum MenuBarMenuToolsOptions{
@@ -94,7 +94,7 @@ protected:
     void newBaseOptionTriggerred();
     void openBaseOptionTriggerred();
     void saveBaseOptionTriggerred();
-    void saveAsBaseOptionTriggerred();
+    void saveAllBasesOptionTriggerred();
     void closeBaseOptionTriggerred();
 
     void newDBObjectOptionTriggerred();

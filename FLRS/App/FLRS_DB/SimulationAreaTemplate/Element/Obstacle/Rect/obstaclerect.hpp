@@ -30,14 +30,16 @@ protected:
 
 
 public:
-    DB_OBJECT_STANDARD_METHODS_NO_TYPES(ObstacleRect, Obstacle, ObstacleRectParameters, NUMB_OF_SIMULATION_AREA_TEMPLATE_ELEMENT_PARAMETERS, NUMB_OF_OBSTACLE_PARAMETERS)
+    DB_OBJECT_STANDARD_METHODS_NO_TYPES(ObstacleRect, Obstacle, ObstacleRectParameters, NUMB_OF_OBSTACLE_RECT_PARAMETERS, NUMB_OF_OBSTACLE_PARAMETERS)
     virtual DataBaseFileOperationStat checkParamAndProccess(QString&, QString&, DataBaseObjectsReadFileContainer*)override;
 
     virtual DataBaseObject* createObject(uint newType)override{return nullptr;}
 
     virtual QGraphicsItem* curItem()override{return this;}
 
-    virtual ObstacleShape getShape() override{return OBSTACLE_SHAPE_RECT;}
+    virtual Shape getShape()override{return SHAPE_RECT;}
+
+    virtual bool sceneEventFilter(QGraphicsItem *obj, QEvent *ev) override;
 };
 
 #endif // OBSTACLERECT_HPP
