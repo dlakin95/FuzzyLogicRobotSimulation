@@ -125,7 +125,7 @@ bool Obstacle::compareParams(void *value, GetParamRules &rules){
     switch (static_cast<ObstacleParameters>(rules.param)) {
     default:
         return false;
-    }
+   }
     rules.compared = true;
     return ret;
 }

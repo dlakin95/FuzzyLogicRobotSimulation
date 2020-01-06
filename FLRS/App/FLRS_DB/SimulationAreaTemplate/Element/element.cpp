@@ -95,7 +95,7 @@ QString SimulationAreaTemplateElement::getParam(GetParamRules& paramRules){
         return QString::number(curItem()->rotation());
     case SIMULATION_AREA_TEMPLATE_ELEMENT_SHAPE:
         return QString::number(getShape());
-    default:
+   default:
         return QString();
     }
 }

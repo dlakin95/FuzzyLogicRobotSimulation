@@ -200,4 +200,3 @@ bool SimulationAreaRect::sceneEventFilter(QGraphicsItem *obj, QEvent *ev){
     SimulationArea::sceneEventFilter(obj, ev);
     return QGraphicsRectItem::sceneEventFilter(obj, ev);
 }
-

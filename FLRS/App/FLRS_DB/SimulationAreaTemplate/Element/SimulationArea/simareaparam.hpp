@@ -56,7 +56,6 @@
 
 // _ENUM_ SimulationAreaParameters -----------------------------------------------------------------------------------------------------------------------------------------------
 enum SimulationAreaParameters{
-
     // All List Parameters Below vvvvvvvvvvvvv
 
     NUMB_OF_SIMULATION_AREA_PARAMETERS

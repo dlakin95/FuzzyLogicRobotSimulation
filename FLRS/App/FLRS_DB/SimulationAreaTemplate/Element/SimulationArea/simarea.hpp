@@ -4,7 +4,6 @@
 #include"../element.hpp"
 #include"simareaparam.hpp"
 
-
 class SimulationArea : public SimulationAreaTemplateElement{
 public:
     SimulationArea();
@@ -17,7 +16,7 @@ protected:
     // Optionality Table
     static constexpr bool optionality[]=
     {
-    };
+   };
 
     // Param is Object(Record) Table
     static constexpr bool paramIsObject[]=
