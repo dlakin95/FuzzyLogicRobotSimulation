@@ -27,7 +27,7 @@ public:
     // _DESTRUCTORS_ DataBaseCategory.hpp
     ~DataBaseCategory() override;
 
-private:
+protected:
     // _PRIVATE_MEMBERS_ DataBaseCategory.hpp
     // DataBaseObjects and Subcategories (Never as Category)
     DataBaseCategoryObjects dataBaseCategoryObjects;
@@ -47,7 +47,7 @@ private:
 public:
     // _PUBLIC_MEMBERS_ DataBaseCategory.hpp
 
-private:
+protected:
     // _PRIVATE_METHODS_ DataBaseCategory.hpp
     void clearMemory() override;
     bool addDataBaseCategoryObject(DataBaseObject* newObj){ARRAY_ADD_PTR_WITH_TEMP_PTR_RETURN_BOOL(DataBaseObject, dataBaseCategoryObjects.dataBaseObjects, dataBaseCategoryObjects.numbOfDataBaseObjects, newObj);}
@@ -77,6 +77,10 @@ public:
 
     DataBaseFileOperationStat checkParamAndProccess(QString&, QString&, DataBaseObjectsReadFileContainer*) override;
     DataBaseObject* createObject(uint newType) override{return nullptr;}
+    //DataBaseObject* createObject(DataBaseObject* obj, uint type); // Copy Object to new Object, then delete old Object
+
+
+
 };
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------

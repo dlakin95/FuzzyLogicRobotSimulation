@@ -47,6 +47,10 @@ DataBaseObject::~DataBaseObject(){
     clearMemory();
 }
 
+void DataBaseObject::clearMemory(){
+    SET_PTR_DOA(initializedParameters, nullptr);
+}
+
 // _PRIVATE_METHODS_ DataBaseObject.cpp
 void DataBaseObject::initialize(uint numbOfParams){
     numbOfParams += getNumbOfParameters();
@@ -69,13 +73,10 @@ void DataBaseObject::initialize(uint numbOfParams){
     }
 }
 
-void DataBaseObject::clearMemory(){
-    SET_PTR_DOA(initializedParameters, nullptr);
-}
 
 bool DataBaseObject::setParamId(uint param){
     paramId = param;
-    (*(initializedParameters + param)) = true;
+    (*(initializedParameters + DATABASE_OBJECT_PARAM_OBJECT_ID)) = true;
     return true;
 }
 
@@ -271,7 +272,7 @@ DataBaseFileOperationStat DataBaseObject::checkParamAndProccess(QString &param, 
         // DATABASE_OBJECT_TYPE
         CHECK_PARAM_DECISION_BLOCK(param, DB_OBJECT_MACRO_ACCESS_NAME(DATABASE_OBJECT_TYPE), PARAM_LENGTH_4){
             // Set Readed Type
-            break;
+            return DATABASE_FILE_OPERATION_DB_CHANGE_OBJECT_TYPE;
             //DB_OBJECT_CHECK_PARAM_AND_PROCCESS_ASSIGN_VALUE_RETURN(DataBaseObject, DATABASE_OBJECT_NAME, value, dbObjReadFileConatainer, DATABASE_FILE_OPERATION_DB_CHANGE_OBJECT_TYPE);
             /*
             spr.param = DB_GET_REAL_PARAM(DataBaseObject, DATABASE_OBJECT_TYPE);

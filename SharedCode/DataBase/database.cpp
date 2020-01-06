@@ -142,8 +142,8 @@ DataBaseFileOperationStat DataBase::checkParamAndProccess(QString &param, QStrin
 DataBaseGeneralInformation* DataBase::get_dataBaseGeneralInformation(){return dataBaseGeneralInformation;}
 //GET_SET_NDO_DEFINITION(DataBase, DataBaseGeneralInformation*, dataBaseGeneralInformation)
 GET_DEFINITION(DataBase,DataBaseObject**, dataBaseObjects)
-GET_DEFINITION(DataBase,uint, numbOfDataBaseObjects)
-GET_DEFINITION(DataBase,DataBaseError, error)*/
+GET_DEFINITION(DataBase,uint, numbOfDataBaseObjects)*/
+GET_DEFINITION(DataBase,DataBaseError, error)
 
 void DataBase::readDataBaseFile(QFile& file){
     // Init

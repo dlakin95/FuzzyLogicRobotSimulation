@@ -31,8 +31,8 @@ bool DataBaseReader::readDataBase(DataBase* dataBase, QFile& file){
     // File Read Block --------------
     dataBase->readDataBaseFile(file);
     // Error Occurred or End of Base - Check error parameter of dataBase
-    //if(dataBase->get_error() != DATABASE_NO_ERROR)// __ IF dataBase->error != NO_ERROR -- It means that error occurred
-     //   return false;
+    if(dataBase->get_error() != DATABASE_NO_ERROR)// __ IF dataBase->error != NO_ERROR -- It means that error occurred
+        return false;
     return true;
 }
 

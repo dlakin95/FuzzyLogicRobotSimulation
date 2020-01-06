@@ -66,13 +66,14 @@ public:
 protected:
     // _PRIVATE_METHODS_ DataBaseObject.hpp
     void initialize(uint);
-    virtual void clearMemory();    
-
 
 public:
     bool setParamId(uint param);
     virtual DataBaseObject* createObject(uint newType){return nullptr;}
     virtual DataBaseFileOperationStat checkParamAndProccess(QString&, QString&, DataBaseObjectsReadFileContainer*);
+    virtual void clearMemory();
+
+
     // _PUBLIC_METHODS_ DataBaseObject.hpp
     /*
     // Parameters Control
